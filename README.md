@@ -34,6 +34,28 @@ A high-performance, dual-core smart power supply controller and monitor built on
 | **Potentiometer** | Wiper | GPIO 10 | Connect ends to 3.3V and GND |
 | **SMPS Control** | PWM Out | GPIO 11 | Route to RC filter and Op-Amp |
 
+## 🚀 Installation & Usage
+
+* Clone this repository and open it in VS Code with PlatformIO.
+* Build and upload the code to your ESP32-S3-Zero.
+* Power on the device. The ESP32 will immediately broadcast a WiFi Access Point.
+* SSID: Power Supply
+* Password: 12345678
+* Connect to the network using your phone or PC and navigate to http://192.168.4.1.
+**Web UI Features:**
+* View live V, A, W, and Wh.
+* Toggle between "Pot Mode" (hardware) and "Web Mode" (slider).
+* Change UI themes (saves automatically).
+* Access the ⚙️ Advanced Settings to tune dynamic color thresholds and reset the PZEM energy counter.
+
+## ⚠️ Important Safety Notes
+
+**MAX485 Voltage:** The MAX485 module requires 5V to communicate properly with the PZEM-017 over RS485. Because the ESP32-S3 is a 3.3V device, you must use a voltage divider (e.g., 1kΩ / 2kΩ) or use atleast 1K resistor in series or a logic level shifter on the RO line before it connects to GPIO 12 to prevent frying the ESP32.
+
+**SMPS Control:** Ensure your Op-Amp gain is calibrated so that a 100% duty cycle on the 3.3V PWM pin equates perfectly to the 5.0V feedback required by your power supply.
+
+Developed by **Sarvs Electric**
+
 ## 💻 Software Dependencies
 This project is built using **PlatformIO**. Add the following to your `platformio.ini` `lib_deps`:
 
@@ -41,25 +63,4 @@ This project is built using **PlatformIO**. Add the following to your `platformi
 lib_deps =
     adafruit/Adafruit GFX Library@^1.11.9
     adafruit/Adafruit ST7735 and ST7789 Library@^1.10.4
-    4-20ma/ModbusMaster@^2.0.1
-
-🚀 **Installation & Usage**
-
-Clone this repository and open it in VS Code with PlatformIO.
-Build and upload the code to your ESP32-S3-Zero.
-Power on the device. The ESP32 will immediately broadcast a WiFi Access Point.
-SSID: Power Supply
-Password: 12345678
-Connect to the network using your phone or PC and navigate to http://192.168.4.1.
-Web UI Features:
-View live V, A, W, and Wh.
-Toggle between "Pot Mode" (hardware) and "Web Mode" (slider).
-Change UI themes (saves automatically).
-Access the ⚙️ Advanced Settings to tune dynamic color thresholds and reset the PZEM energy counter.
-
-⚠️ **Important Safety Notes**
-
-MAX485 Voltage: The MAX485 module requires 5V to communicate properly with the PZEM-017 over RS485. Because the ESP32-S3 is a 3.3V device, you must use a voltage divider (e.g., 1kΩ / 2kΩ) or use atleast 1K resistor in series or a logic level shifter on the RO line before it connects to GPIO 12 to prevent frying the ESP32.
-SMPS Control: Ensure your Op-Amp gain is calibrated so that a 100% duty cycle on the 3.3V PWM pin equates perfectly to the 5.0V feedback required by your power supply.
-
-Developed by **Sarvs Electric**
+    4-20ma/ModbusMaster@^2.0.1 
